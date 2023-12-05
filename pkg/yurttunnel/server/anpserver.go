@@ -28,7 +28,6 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/keepalive"
-	"k8s.io/klog/v2"
 	anpserver "sigs.k8s.io/apiserver-network-proxy/pkg/server"
 	anpagent "sigs.k8s.io/apiserver-network-proxy/proto/agent"
 
@@ -117,7 +116,7 @@ func runProxier(handler http.Handler,
 			Handler:     handler,
 			ReadTimeout: constants.YurttunnelANPProxierReadTimeoutSec * time.Second,
 		}
-		unixListener, err := net.Listen("unix", udsSockFile)
+		unixListener, err := net.Listen(constants.UnixListenerNetwork, udsSockFile)
 		if err != nil {
 			klog.Errorf("proxier could not serving request through uds: %s", err)
 		}
